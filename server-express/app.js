@@ -17,14 +17,13 @@ wss.on('connection', function (ws) {
     let online = wss.clients.size;
     console.log("online", online)
 
+    let screenNumber = wss.clients.size - 1;
+    ws.send(JSON.stringify({ type: 'screenNumber', data: screenNumber }));
     broadcast({ type: 'online', data: online });
 
     ws.on('message', function (data) {
-        console.log("data", wss);
         const values = JSON.parse(data).data;
         const index = [...wss.clients].indexOf(ws);
-        console.log("vales", values);
-        console.log("index", index);
 
         if (values[0] == 0) {
             withBall = [...wss.clients][index + 1] ? index + 1 : 0;

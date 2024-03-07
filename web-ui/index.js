@@ -194,7 +194,7 @@ class Ball {
 	}
 	// Screen status
 	showScreenStatus(screen) {
-		document.getElementById('screen_num').innerText = screen;
+		document.getElementById('current_screen_num').innerText = screen;
 	}
 	render() {
 
@@ -307,6 +307,11 @@ class Ball {
 		Event.subscribe('withBall', function (data) {
 			console.log('with ball screen', data);
 			self.showScreenStatus(data);
-		})
+		});
+		// screen Number
+		Event.subscribe('screenNumber', function (data) {
+			console.log('screen number', data)
+			document.getElementById('user_screen_num').innerHTML = data
+		});
 	}
 };
