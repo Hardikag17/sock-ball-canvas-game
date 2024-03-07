@@ -7,8 +7,10 @@ var globalConfig = {
 	websockTargetPort: isDevMode ? 9000 : 80
 }
 
+var myUniqID = null;
+
 window.addEventListener("load", function () {
-	let myUniqID = localStorage.getItem('sessionID');
+	myUniqID = localStorage.getItem('sessionID');
 
 	if (!myUniqID) {
 		myUniqID = uuidv4();
@@ -246,12 +248,15 @@ class Ball {
 			// if ball cross screen edges of this client (left or right) send a message to server
 			if (this.controlBall && (this.x < -this.radius || this.x > this.canvas.width + this.radius)) {
 				if (this.x < -this.radius) {
-					var values = [0, this.y, this.speedX, this.speedY];
+					var values = [0, this.y, this.speedX, this.speedY, myUniqID];
 				} else {
-					var values = [1, this.y, this.speedX, this.speedY];
+					var values = [1, this.y, this.speedX, this.speedY, myUniqID];
 				}
 
 				this.dropBall();
+
+				console.error(myUniqID);
+
 				Event.call('ball.send', values);
 			}
 			// create bounce effect on Y axis
