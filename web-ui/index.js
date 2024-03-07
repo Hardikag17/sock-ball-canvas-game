@@ -17,8 +17,6 @@ window.addEventListener("load", function () {
 		localStorage.setItem('sessionID', myUniqID);
 	}
 
-	console.warn('HELLO MY UNIQ ID IS', myUniqID);
-
 	var canvas = document.getElementById('myCanvas');
 	var ws = new Ws(globalConfig.websockTargetHost, globalConfig.websockTargetPort, myUniqID);
 	Event = new Event();
@@ -28,7 +26,6 @@ window.addEventListener("load", function () {
 	});
 
 	var ball = new Ball(canvas, canvas.getContext("2d"));
-	console.log(ball);
 });
 
 class Ws {
