@@ -42,6 +42,7 @@ wss.on('connection', function (ws, req) {
     // console.log("CLIENT ADDED OK", req.headers.host, screenNumForClient);
 
     broadcast({ type: 'online', data: online });
+    broadcast({ type: 'rostersize', data: clientsListAsArray?.length });
 
     ws.on('message', function (data) {
         const parsedData = JSON.parse(data);
@@ -113,6 +114,7 @@ wss.on('connection', function (ws, req) {
         console.warn(data);
         online = wss.clients.size;
         broadcast({ type: 'online', data: online });
+        broadcast({ type: 'rostersize', data: wss?.clients?.size });
     });
 });
 

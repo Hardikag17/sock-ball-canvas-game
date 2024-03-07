@@ -327,6 +327,12 @@ class Ball {
 			console.log('screen number', data)
 			document.getElementById('user_screen_num').innerHTML = data
 		});
+
+		// screen Number
+		Event.subscribe('rostersize', function (data) {
+			console.log('rostersize', data)
+			document.getElementById('rosterCount').innerHTML = data
+		});
 	}
 };
 
