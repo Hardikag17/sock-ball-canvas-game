@@ -1,6 +1,6 @@
 //jshint esversion :6
 
-const isDevMode = false;
+const isDevMode = true;
 
 var globalConfig = {
 	websockTargetHost: isDevMode ? 'localhost' : 'lit-savannah-10079-952437008f2e.herokuapp.com',
@@ -29,6 +29,12 @@ class Ws {
 		this.socket = new WebSocket('ws://' + address + ':' + port);
 
 		this.socket.onopen = function (e) {
+			console.log("CONNECTION OPEN");
+			let statusEl = document.getElementById('active_status');
+			if (statusEl.classList.contains('red')) {
+				statusEl.classList.remove('red')
+			}
+			statusEl.classList.add('green');
 		};
 
 		this.socket.onmessage = function (e) {
@@ -36,6 +42,15 @@ class Ws {
 			console.log(data);
 			Event.call(data.type, data.data);
 		};
+
+		this.socket.onclose = function (e) {
+			console.log("CONNECTION CLOSED");
+			let statusEl = document.getElementById('active_status');
+			if (statusEl.classList.contains('green')) {
+				statusEl.classList.remove('green')
+			}
+			statusEl.classList.add('red');
+		}
 
 		this.socket.onerror = function (e) {
 		};
@@ -177,6 +192,10 @@ class Ball {
 		this.lastMouseY = 0;
 		this.throwingBall = false;
 	}
+	// Screen status
+	showScreenStatus(screen) {
+		document.getElementById('screen_num').innerText = screen;
+	}
 	render() {
 
 		// erase trail
@@ -284,5 +303,10 @@ class Ball {
 				self.getBall(250, 250, 0, 0);
 			}
 		});
+		// withBall
+		Event.subscribe('withBall', function (data) {
+			console.log('with ball screen', data);
+			self.showScreenStatus(data);
+		})
 	}
 };

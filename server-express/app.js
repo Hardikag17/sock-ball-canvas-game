@@ -33,6 +33,7 @@ wss.on('connection', function (ws) {
         }
 
         [...wss.clients][withBall].send(JSON.stringify({ type: 'ball.get', data: values }));
+        broadcast({ type: 'withBall', data: withBall }); // Current ball screen status
     });
 
     ws.on('close', function () {

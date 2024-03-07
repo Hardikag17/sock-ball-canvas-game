@@ -1,12 +1,46 @@
-.canvas-layout{
+.canvas-layout {
     border: solid 1px;
     overflow: hidden;
     position: fixed;
 }
 
-body{
+body {
     margin: 0;
     padding: 0;
     overflow: hidden;
     position: fixed;
+}
+
+#screen_num {
+    display: grid;
+    place-content: center center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.3;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 30vh;
+    color: white;
+    pointer-events: none;
+}
+
+#active_status {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    pointer-events: none;
+    margin: 2%;
+}
+
+.red {
+    background-color: rgb(139, 0, 0);
+}
+
+.green {
+    background-color: rgb(2, 82, 2);
 }

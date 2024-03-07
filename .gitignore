@@ -22,3 +22,5 @@ coverage/
 # Output of build process
 build/
 dist/
+
+tasks
