@@ -8,8 +8,17 @@ var globalConfig = {
 }
 
 window.addEventListener("load", function () {
+	let myUniqID = localStorage.getItem('sessionID');
+
+	if (!myUniqID) {
+		myUniqID = uuidv4();
+		localStorage.setItem('sessionID', myUniqID);
+	}
+
+	console.warn('HELLO MY UNIQ ID IS', myUniqID);
+
 	var canvas = document.getElementById('myCanvas');
-	var ws = new Ws(globalConfig.websockTargetHost, globalConfig.websockTargetPort);
+	var ws = new Ws(globalConfig.websockTargetHost, globalConfig.websockTargetPort, myUniqID);
 	Event = new Event();
 
 	Event.subscribe('ball.send', function (data) {
@@ -21,12 +30,12 @@ window.addEventListener("load", function () {
 });
 
 class Ws {
-	constructor(address, port) {
-		this.init(address, port);
+	constructor(address, port, uuid) {
+		this.init(address, port, uuid);
 	}
 
-	init(address, port) {
-		this.socket = new WebSocket('ws://' + address + ':' + port);
+	init(address, port, uuid) {
+		this.socket = new WebSocket('ws://' + address + ':' + port + '?uuid=' + uuid);
 
 		this.socket.onopen = function (e) {
 			console.log("CONNECTION OPEN");
@@ -315,3 +324,9 @@ class Ball {
 		});
 	}
 };
+
+function uuidv4() {
+	return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+		(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+	);
+}

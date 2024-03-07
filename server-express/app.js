@@ -16,7 +16,9 @@ const connections = new Map();
 const wss = new WebSocket.Server({ server });
 
 wss.on('connection', function (ws, req) {
-    const clientHost = req.headers.host;
+    const clientUniqID = req?.url?.slice(req?.url?.indexOf('=') + 1);
+    const clientHost = clientUniqID;
+    console.log("clientHost", clientUniqID);
     let screenNumForClient = -1;
     if (typeof clientHost === 'string' && clientHost.trim().length > 0) {
         if (clientsList.has(clientHost)) {
