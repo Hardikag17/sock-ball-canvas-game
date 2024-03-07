@@ -1,0 +1,24 @@
+# Dependency directories
+node_modules/
+
+# Generated files
+*.log
+npm-debug.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE specific files
+.vscode/
+.idea/
+
+# Environment configuration
+.env
+
+# Output of coverage tools
+coverage/
+
+# Output of build process
+build/
+dist/
