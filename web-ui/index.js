@@ -18,14 +18,18 @@ window.addEventListener("load", function () {
 	}
 
 	var canvas = document.getElementById('myCanvas');
-	var ws = new Ws(globalConfig.websockTargetHost, globalConfig.websockTargetPort, myUniqID);
-	Event = new Event();
+	if (isDevMode === false) {
+		var ws = new Ws(globalConfig.websockTargetHost, globalConfig.websockTargetPort, myUniqID);
+		Event = new Event();
 
-	Event.subscribe('ball.send', function (data) {
-		ws.send(this.name, data);
-	});
-
-	var ball = new Ball(canvas, canvas.getContext("2d"));
+		Event.subscribe('ball.send', function (data) {
+			ws.send(this.name, data);
+		});
+		var ball = new Ball(canvas, canvas.getContext("2d"));
+	} else {
+		var ball = new Ball(canvas, canvas.getContext("2d"));
+		ball.getBall(250, 250, 0, 0);
+	}
 });
 
 class Ws {
@@ -106,7 +110,7 @@ class Ball {
 		this.y = 0;
 		this.speedX = 0;
 		this.speedY = 0;
-		this.radius = 35;
+		this.radius = 25;
 		this.friction = 0.95;
 
 		this.lastMouseX = 0;
@@ -121,7 +125,9 @@ class Ball {
 		// start!
 		this.start();
 
-		this.bind();
+		if (isDevMode === false) {
+			this.bind();
+		}
 	}
 	reshape() {
 		var self = this;
@@ -340,7 +346,7 @@ class Ball {
 		// screen Number
 		Event.subscribe('rostersize', function (data) {
 			console.log('rostersize', data)
-			document.getElementById('rosterCount').innerHTML = data
+			document.getElementById('rosterCount').innerHTML = `Friends: ${data}`
 		});
 	}
 };
