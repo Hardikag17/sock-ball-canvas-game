@@ -1,9 +1,9 @@
 //jshint esversion :6
 
-const isDevMode = true;
+const isDevMode = false;
 
 var globalConfig = {
-	websockTargetHost: isDevMode ? 'localhost' : 'lit-savannah-10079-952437008f2e.herokuapp.com',
+	websockTargetHost: isDevMode ? '172.16.114.50' : 'lit-savannah-10079-952437008f2e.herokuapp.com',
 	websockTargetPort: isDevMode ? 9000 : 80
 }
 
