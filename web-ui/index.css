@@ -19,20 +19,20 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    opacity: 0.3;
+    opacity: 0.2;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 30vh;
+    font-size: 20vh;
     color: white;
     pointer-events: none;
 }
 
 #current_screen_num {
     position: absolute;
-    top: 40px;
-    right: 0;
-    opacity: 0.3;
+    top: 0;
+    right: 45px;
+    opacity: 0.2;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 16vh;
+    font-size: 8vh;
     color: white;
     pointer-events: none;
     margin: 1%;
@@ -43,7 +43,7 @@ body {
     height: 32px;
     border-radius: 50%;
     position: absolute;
-    top: 0;
+    top: 20px;
     right: 0;
     pointer-events: none;
     margin: 2%;
@@ -61,9 +61,9 @@ body {
 }
 
 .red {
-    background-color: rgb(207, 7, 7);
+    background-color: rgb(255, 0, 0);
 }
 
 .green {
-    background-color: rgb(3, 208, 3);
+    background-color: rgb(6, 255, 6);
 }

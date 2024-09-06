@@ -18,14 +18,18 @@ window.addEventListener("load", function () {
 	}
 
 	var canvas = document.getElementById('myCanvas');
-	var ws = new Ws(globalConfig.websockTargetHost, globalConfig.websockTargetPort, myUniqID);
-	Event = new Event();
+	if (isDevMode === false) {
+		var ws = new Ws(globalConfig.websockTargetHost, globalConfig.websockTargetPort, myUniqID);
+		Event = new Event();
 
-	Event.subscribe('ball.send', function (data) {
-		ws.send(this.name, data);
-	});
-
-	var ball = new Ball(canvas, canvas.getContext("2d"));
+		Event.subscribe('ball.send', function (data) {
+			ws.send(this.name, data);
+		});
+		var ball = new Ball(canvas, canvas.getContext("2d"));
+	} else {
+		var ball = new Ball(canvas, canvas.getContext("2d"));
+		ball.getBall(250, 250, 0, 0);
+	}
 });
 
 class Ws {
@@ -106,7 +110,7 @@ class Ball {
 		this.y = 0;
 		this.speedX = 0;
 		this.speedY = 0;
-		this.radius = 15;
+		this.radius = 25;
 		this.friction = 0.95;
 
 		this.lastMouseX = 0;
@@ -121,7 +125,9 @@ class Ball {
 		// start!
 		this.start();
 
-		this.bind();
+		if (isDevMode === false) {
+			this.bind();
+		}
 	}
 	reshape() {
 		var self = this;
@@ -131,6 +137,7 @@ class Ball {
 			self.reshape();
 		};
 
+		// Canvas Styles
 		if (this.canvas) {
 			this.canvas.width = window.innerWidth;
 			this.canvas.height = window.innerHeight;
@@ -243,7 +250,7 @@ class Ball {
 			this.y += this.speedY;
 
 			// if ball cross screen edges of this client (left or right) send a message to server
-			if (this.controlBall && (this.x < -this.radius || this.x > this.canvas.width + this.radius)) {
+			if (isDevMode === false && this.controlBall && (this.x < -this.radius || this.x > this.canvas.width + this.radius)) {
 				if (this.x < -this.radius) {
 					var values = [0, this.y, this.speedX, this.speedY, myUniqID];
 				} else {
@@ -252,9 +259,20 @@ class Ball {
 
 				this.dropBall();
 
-				console.error(myUniqID);
-
 				Event.call('ball.send', values);
+			}
+
+			if (isDevMode === true) {
+				// create bounce effect on x-axis
+				if (this.x - this.radius < 0 || this.x + this.radius > this.canvas.width) {
+					if (this.x - this.radius < 0) {
+						this.x = this.radius;
+					} else if (this.x + this.radius > this.canvas.width) {
+						this.x = this.canvas.width - this.radius;
+					}
+
+					this.speedX *= -1;
+				}
 			}
 			// create bounce effect on Y axis
 			if (this.y - this.radius < 0 || this.y + this.radius > this.canvas.height) {
@@ -328,7 +346,7 @@ class Ball {
 		// screen Number
 		Event.subscribe('rostersize', function (data) {
 			console.log('rostersize', data)
-			document.getElementById('rosterCount').innerHTML = data
+			document.getElementById('rosterCount').innerHTML = `Friends: ${data}`
 		});
 	}
 };
